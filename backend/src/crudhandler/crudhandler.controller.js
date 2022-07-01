@@ -13,3 +13,13 @@ exports.deleteOne = (Model) =>
             data: null,
         });
     };
+
+exports.getAll = (Model) => 
+    async (req, res) => {
+        const data = await Model.find()
+
+        res.status(200).json({
+            status: 'Success',
+            data
+        })
+    }

@@ -21,6 +21,10 @@ const teamSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
+    point: {
+        type: Number,
+        default:0
+    },
     created_at: {
         type: Date,
         default: Date.now()
