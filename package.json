@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon app",
     "store": "node -e 'require(\"./backend/dev-data/storeData.js\").storeData()'",
-    "delete": "node -e 'require(\"./backend/dev-data/deleteData.js\").deleteData()'"
+    "delete": "node -e 'require(\"./backend/dev-data/deleteData.js\").deleteData()'",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",

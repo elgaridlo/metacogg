@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { tournamentListAction } from '../Service/Actions/tournament.action'
 
 const HomeScreen = () => {
+    const tournamentList = useSelector(state => state.tournamentList)
+    const { loading, error, listOfTournament } = tournamentList
+    const dispatch = useDispatch()
+
+    useState(() => {
+        if (!listOfTournament) {
+            dispatch(tournamentListAction())
+        }
+    }, [listOfTournament])
     return (
         <>
             <div className="row mb-2">
