@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { teamListAction } from '../Service/Actions/team.action'
 import { tournamentListAction } from '../Service/Actions/tournament.action'
 import nologo from '../Hey.jpg'
+import axios from 'axios'
 
 const HomeScreen = () => {
     const tournamentList = useSelector(state => state.tournamentList)
@@ -42,15 +43,17 @@ const HomeScreen = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {listOfTeam.map((item, index) =>
-                            (
-                                <tr key={item._id}>
-                                    <th scope="row">{index+1}</th>
-                                    <td><img src={item.logo || nologo} alt={item.name}/></td>
-                                    <td className="fs-6"><strong>{item.name} </strong></td>
-                                    <td style={{textAlign: 'center'}}>{item.point}</td>
-                                </tr>
-                            ))
+                            {listOfTeam.map( (item, index) =>
+                            {
+                                return (
+                                    <tr key={item._id}>
+                                        <th scope="row">{index+1}</th>
+                                        <td><img src={item.logo || nologo} alt={item.name}/></td>
+                                        <td className="fs-6"><strong>{item.name} </strong></td>
+                                        <td style={{textAlign: 'center'}}>{item.point}</td>
+                                    </tr>
+                                )
+                            })
                             }
                         </tbody>
                     </table>

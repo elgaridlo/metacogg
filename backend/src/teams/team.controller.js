@@ -4,4 +4,14 @@ const Team = require("./team.model");
 
 const getAllTeam = getAll(Team)
 
-module.exports = {getAllTeam}
+const sortMiddleware = async(req, res, next) => {
+    const sortBy = req.query.sort
+    if (sortBy ) {
+        let obj = {}
+        obj[sortBy] = 1
+        req.sort = obj
+    }
+    next()
+}
+
+module.exports = {getAllTeam, sortMiddleware}

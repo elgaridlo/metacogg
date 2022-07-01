@@ -16,7 +16,10 @@ exports.deleteOne = (Model) =>
 
 exports.getAll = (Model) => 
     async (req, res) => {
-        const data = await Model.find()
+
+        console.log('req.sort = ', req.sort)
+
+        const data = await Model.find().sort(req.sort).exec()
 
         res.status(200).json({
             status: 'Success',
