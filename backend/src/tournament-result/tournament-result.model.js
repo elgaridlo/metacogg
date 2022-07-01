@@ -1,11 +1,6 @@
 const mongoose = require('mongoose')
 
 const tournamentResultSchema = mongoose.Schema({
-    id: {
-        type: Number,
-        required: true,
-        unique: true
-    },
     team_id: {
         type: Number,
         required: true,

@@ -1,6 +1,6 @@
 const errorResponseStatus = require("../../utils/errorRespStatus");
 
-exports.deleteOne = (Model) =>
+const deleteOne = (Model) =>
     async (req, res, next) => {
         const doc = await Model.findByIdAndDelete(req.params.id);
 
@@ -14,15 +14,32 @@ exports.deleteOne = (Model) =>
         });
     };
 
-exports.getAll = (Model) => 
-    async (req, res) => {
-
-        console.log('req.sort = ', req.sort)
+const getAll = (Model) => 
+    async (req, res, next) => {
 
         const data = await Model.find().sort(req.sort).exec()
 
-        res.status(200).json({
-            status: 'Success',
-            data
-        })
+        req.data = data
+
+        next()
     }
+
+const getResponse = async(req, res) => {
+    const {data} = req
+    res.status(200).json({
+        status: 'Success',
+        data
+    })
+}
+
+const sortMiddleware = async(req, res, next) => {
+    const sortBy = req.query.sort
+    if (sortBy ) {
+        let obj = {}
+        obj[sortBy] = 1
+        req.sort = obj
+    }
+    next()
+}
+
+module.exports = {sortMiddleware, deleteOne,getAll,getResponse}

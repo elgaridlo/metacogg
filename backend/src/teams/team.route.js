@@ -1,7 +1,8 @@
 const express = require('express')
-const { getAllTeam, sortMiddleware } = require('./team.controller')
+const { getResponse, sortMiddleware } = require('../crudhandler/crudhandler.controller')
+const { getAllTeam } = require('./team.controller')
 const router = express.Router()
 
-router.route('/').get(sortMiddleware, getAllTeam)
+router.route('/').get(sortMiddleware, getAllTeam, getResponse)
 
 module.exports = router

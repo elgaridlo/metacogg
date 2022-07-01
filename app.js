@@ -5,6 +5,7 @@ const router = require('./backend/src/index.routes')
 const morgan = require('morgan')
 const {json, urlencoded} = require('body-parser')
 const connectionDB = require('./backend/config/connectionDB')
+const errorHandler = require('./backend/utils/error/error.controller')
 
 dotenv.config()
 
@@ -34,6 +35,8 @@ app.all('*', (req,res) => {
         message: `URL ${req.originalUrl} tidak dapat ditemukan`
     })
 })
+
+app.use(errorHandler);
 
 
 app.listen(process.env.PORT, () => {
