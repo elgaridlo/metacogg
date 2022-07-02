@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon app",
+    "start": "node app",
     "store": "node -e 'require(\"./backend/dev-data/storeData.js\").storeData()'",
     "delete": "node -e 'require(\"./backend/dev-data/deleteData.js\").deleteData()'",
     "client": "npm run start --prefix frontend",
