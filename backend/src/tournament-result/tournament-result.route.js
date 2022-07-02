@@ -7,6 +7,13 @@ const { addCoinUser, getUserCoin } = require('../users/user.controller')
 const { createTournamentResult } = require('./tournament-result.controller')
 const router = express.Router()
 
-router.route('/').post(getAllTeam, getTeams, getTournament, createTournamentResult, addCoinUser, getResponse)
+router.route('/').post(
+    getAllTeam, 
+    getTeams, 
+    getTournament, 
+    createTournamentResult, 
+    addCoinUser, 
+    getResponse
+    )
 
 module.exports = router

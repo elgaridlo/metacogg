@@ -34,9 +34,10 @@ const getResponse = async(req, res) => {
 
 const sortMiddleware = async(req, res, next) => {
     const sortBy = req.query.sort
+    const sortByOrder = req.query.sortOrder
     if (sortBy ) {
         let obj = {}
-        obj[sortBy] = 1
+        obj[sortBy] = sortByOrder === 'desc' ? -1 : 1
         req.sort = obj
     }
     next()

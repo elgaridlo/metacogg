@@ -1,3 +1,4 @@
+const { getAll } = require("../crudhandler/crudhandler.controller")
 const TeamMember = require("../team-members/teamMembers.model")
 const User = require("./user.model")
 
@@ -14,11 +15,15 @@ const addCoinUser = async(req,res,next) => {
 const addCoin = async (coin, member, count) => {
     if(count === 0) return
 
-    console.log('member = ', member[count-1].id)
-    await User.updateOne({id: Number(member[count-1].user_id)}, {coin: 0}, {new: true}).exec()
+    console.log('member = ', member[count-1].user_id)
+    const dev = {$inc: {coin}}
+    const deleteData = {coin:0}
+    await User.updateOne({id: Number(member[count-1].user_id)}, deleteData, {new: true}).exec()
 
     count -= 1
     addCoin(coin, member, count)
 }
 
-module.exports = {addCoinUser}
+const getAllUser = getAll(User)
+
+module.exports = {addCoinUser, getAllUser}

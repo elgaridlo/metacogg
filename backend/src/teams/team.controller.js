@@ -3,4 +3,7 @@ const Team = require("./team.model");
 
 const getAllTeam = getAll(Team)
 
+
+// const addPointToTeam = 
+
 module.exports = {getAllTeam}
