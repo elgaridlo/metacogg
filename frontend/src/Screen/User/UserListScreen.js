@@ -30,6 +30,7 @@ const UserListScreen = () => {
                             <tr>
                                 <th scope="col">Position</th>
                                 <th scope="col"></th>
+                                <th scope="col">Nama</th>
                                 <th scope="col">Team</th>
                                 <th scope="col" style={{ textAlign: 'center' }}>Coin</th>
                             </tr>
@@ -41,6 +42,7 @@ const UserListScreen = () => {
                                         <th scope="row">{index + 1}</th>
                                         <td><img src={item.picture || nologo} alt={item.name} /></td>
                                         <td className="fs-6"><strong>{item.name} </strong></td>
+                                        <td className="fs-6"><strong>{item.user_member_id.team_member_id.name} </strong></td>
                                         <td style={{ textAlign: 'center' }}>{item.coin}</td>
                                     </tr>
                                 )
