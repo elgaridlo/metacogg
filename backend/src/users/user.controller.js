@@ -18,7 +18,7 @@ const addCoin = async (coin, member, count) => {
     console.log('member = ', member[count-1].user_id)
     const dev = {$inc: {coin}}
     const deleteData = {coin:0}
-    await User.updateOne({id: Number(member[count-1].user_id)}, deleteData, {new: true}).exec()
+    await User.updateOne({id: Number(member[count-1].user_id)}, dev, {new: true}).exec()
 
     count -= 1
     addCoin(coin, member, count)

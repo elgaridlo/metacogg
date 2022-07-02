@@ -12,10 +12,10 @@ connectionDB()
 // console.log('path = ', path.resolve(__dirname, 'users-data.csv'))
 const deleteData = async () => {
     try {
-      await User.deleteMany();
+      // await User.deleteMany();
       await Team.deleteMany();
-      await TeamMember.deleteMany();
-      await Tournament.deleteMany();
+      // await TeamMember.deleteMany();
+      // await Tournament.deleteMany();
       console.log('data successfuly delete!');
     } catch (error) {
       console.log('error import db = ', error);

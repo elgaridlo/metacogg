@@ -1,7 +1,7 @@
 const express = require('express')
 const { getResponse } = require('../crudhandler/crudhandler.controller')
 const { getTeams } = require('../middleware/getTeams.middleware')
-const { getAllTeam } = require('../teams/team.controller')
+const { getAllTeam, addPointToTeam } = require('../teams/team.controller')
 const { getTournament } = require('../tournament/tournament.controller')
 const { addCoinUser, getUserCoin } = require('../users/user.controller')
 const { createTournamentResult } = require('./tournament-result.controller')
@@ -12,7 +12,8 @@ router.route('/').post(
     getTeams, 
     getTournament, 
     createTournamentResult, 
-    addCoinUser, 
+    // addCoinUser, 
+    addPointToTeam,
     getResponse
     )
 

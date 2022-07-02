@@ -19,9 +19,9 @@ const storeData = async () => {
     const teamData = await convertCsv(path.resolve(__dirname, 'teams-data.csv'))
     
     try {
-        await User.create(userData)
-        await Tournament.create(tournamentData)
-        await TeamMember.create(teamMemberData)
+        // await User.create(userData)
+        // await Tournament.create(tournamentData)
+        // await TeamMember.create(teamMemberData)
         await Team.create(teamData)
         console.log('Store to database sucessfull');
     } catch (error) {

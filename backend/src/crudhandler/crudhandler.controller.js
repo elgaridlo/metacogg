@@ -1,18 +1,20 @@
+const expressAsyncHandler = require("express-async-handler");
+const appError = require("../../utils/error/appError");
 const errorResponseStatus = require("../../utils/errorRespStatus");
 
 const deleteOne = (Model) =>
-    async (req, res, next) => {
+    expressAsyncHandler(async (req, res, next) => {
         const doc = await Model.findByIdAndDelete(req.params.id);
 
         if (!doc) {
-            errorResponseStatus(500,'No document found with that ID',res);
+            return next(new appError('No document found with that ID', 500))
         }
 
         res.status(204).json({
             status: 'Success',
             data: null,
         });
-    };
+    });
 
 const getAll = (Model) => 
     async (req, res, next) => {
@@ -43,4 +45,10 @@ const sortMiddleware = async(req, res, next) => {
     next()
 }
 
-module.exports = {sortMiddleware, deleteOne,getAll,getResponse}
+const updateOne = async(Model, updateFilter, dataupdate) => {
+    console.log('filter = ', updateFilter)
+    console.log('update = ', dataupdate)
+    await Model.updateOne(updateFilter, dataupdate, {new: true}).exec()
+};
+
+module.exports = {sortMiddleware, deleteOne,getAll,getResponse, updateOne}
