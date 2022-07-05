@@ -18,9 +18,13 @@ const deleteOne = (Model) =>
 const getAll = (Model) => 
     async (req, res, next) => {
         let filter 
-        if(req.filter && req.filter.field) {
+        console.log('req.filter = ',req.filter)
+        console.log('req.filterPass = ',req.filterPass)
+
+        if(req.filter && req.filterPass) {
             filter = req.filter
         }
+        console.log('filter = ', filter)
         const data = await Model.find(filter).sort(req.sort).exec()
 
         req.data = data
@@ -66,9 +70,8 @@ const filterData = async(req, res, next) => {
     if (filter[field]['$lte'] === undefined) {
         delete filter[field]['$lte']
     }
-
-    console.log('filter = ', filter)
     req.filter = filter
+    req.filterPass = req.query.hasOwnProperty('field')
     next()
 }
 

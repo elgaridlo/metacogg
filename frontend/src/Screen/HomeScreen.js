@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { teamListAction } from '../Service/Actions/team.action'
-import { useLocation, useNavigate, createSearchParams, Link } from 'react-router-dom'
 import nologo from '../Hey.jpg'
 import Filter from '../Layout/Filter'
 
@@ -24,32 +23,25 @@ const HomeScreen = () => {
     const teamList = useSelector(state => state.teamList)
     const { listOfTeam } = teamList
 
-    const {origin, pathname} = window.location
-
-    const {search} = useLocation()
+    const {origin} = window.location
 
     const dispatch = useDispatch()
 
-    useState(() => {
-        setSort(search)
+    useEffect(() => {
         console.log('sort home = ', sort)
         dispatch(teamListAction(sort))
-    }, [sort,search,listOfTeam])
+    }, [sort])
 
-    const submitHandler = ({min, max}) => {
+    const submitHandler = async({min, max}) => {
         const stringParam = queryParamsFunc({min, max})
-        const stringQuery = ''
+        let stringQuery = `?sort=point&sortOrder=desc`
+        
+        console.log('params = ', stringParam)
         if (stringParam) {
-            setSort(`?${sort}&field=point&${stringParam}`)
-        } else {
-            setSort(`?${sort}`)
+            stringQuery += `&${stringParam}&field=point`
         }
-
-        dispatch(teamListAction(sort))
-        // window.location.href = `${origin}${pathname}${sort}`
-        // navigate({
-        //     search: `?${createSearchParams(queryPrms)}`
-        // })
+        
+        dispatch(teamListAction(stringQuery))
     }
 
     const navigateAddWinner = () => {
