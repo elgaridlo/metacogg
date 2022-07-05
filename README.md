@@ -16,23 +16,31 @@ Install the dependencies and devDependencies and start the server.
 ```sh
 npm i
 ```
-to start the server by npm run
+to start the server by npm run, but before that maybe do you want to reset the data first. Because I give validation when you filled existing team that alread won the tournament. It will show notification that the team already won the tournament. Or the position has been filled.
 
 ```sh
 npm run dev
 ```
 #### Delete or Clean Database
-but before that maybe do you want to reset the data first. You can do it by 
+To delete database.
 
 ```sh
 npm run delete
 ```
 
 #### Store or Fill Database
-
+To Fill Database with required data.
 ```sh
 npm run store
 ```
+
+or you can manipulate which database data do you want to delete or store by open the folder backend -> dev-data -> storeData.js or deleteData.js
+You can comment and uncomment the syntax like
+
+```sh
+// await Tournament.create(tournamentData)
+```
+
 ## Features
 
 - Create Winner Champion
@@ -60,11 +68,6 @@ Metacogg uses a number of open source projects to work properly:
 And of course Metacogg App itself is open source with a [public repository](https://github.com/elgaridlo/metacogg)
  on GitHub.
 
-## Plugins
-
-Dillinger is currently extended with the following plugins.
-Instructions on how to use them in your own application are linked below.
-
 ## License
 
 MIT
@@ -76,5 +79,3 @@ MIT
    [node.js]: <http://nodejs.org>
    [Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
    [express]: <http://expressjs.com>
-
-
