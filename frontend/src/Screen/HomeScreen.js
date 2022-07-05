@@ -19,7 +19,7 @@ const queryParamsFunc = (data) => {
 const HomeScreen = () => {
     // const tournamentList = useSelector(state => state.tournamentList)
     // const { loading, error, listOfTournament } = tournamentList
-    // const [sort, setSort] = useState('?sort=point&sortOrder=desc')
+    const [sort, setSort] = useState('?sort=point&sortOrder=desc')
 
     const teamList = useSelector(state => state.teamList)
     const { listOfTeam } = teamList
@@ -31,21 +31,21 @@ const HomeScreen = () => {
     const dispatch = useDispatch()
 
     useState(() => {
-        // setSort(search)
-        // console.log('sort home = ', sort)
-        dispatch(teamListAction(search))
-    }, [search,listOfTeam])
+        setSort(search)
+        console.log('sort home = ', sort)
+        dispatch(teamListAction(sort))
+    }, [sort,search,listOfTeam])
 
     const submitHandler = ({min, max}) => {
         const stringParam = queryParamsFunc({min, max})
-        let queryString
+        const stringQuery = ''
         if (stringParam) {
-            queryString = `?sort=point&sortOrder=desc&field=point&${stringParam}`
+            setSort(`?${sort}&field=point&${stringParam}`)
         } else {
-            queryString = `?sort=point&sortOrder=desc`
+            setSort(`?${sort}`)
         }
 
-        dispatch(teamListAction(queryString))
+        dispatch(teamListAction(sort))
         // window.location.href = `${origin}${pathname}${sort}`
         // navigate({
         //     search: `?${createSearchParams(queryPrms)}`
