@@ -30,7 +30,9 @@ const addCoin = async (coin, member, count) => {
 
 const getAllUser = expressAsyncHandler(
     async (req, res, next) => {
-        console.log('req.sort = ',req.sort)
+
+        const {filter} = req.filter
+        
         const data = await User.aggregate([
             {
                 $lookup: {

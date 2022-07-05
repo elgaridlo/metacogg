@@ -1,5 +1,6 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, Navigate, HistoryRouterProps } from 'react-router-dom'
+import { render } from 'react-dom';
 import HomeScreen from './Screen/HomeScreen';
 import Header from './Layout/Header';
 import CreateLeaderboardScreen from './Screen/Leaderboard/CreateLeaderboardScreen';
@@ -14,7 +15,10 @@ function App() {
           <Routes>
             <Route path="/leaderboard/create" element={<CreateLeaderboardScreen />} exact />
             <Route path="/explore" element={<UserListScreen />} exact />
-            <Route path="/" element={<HomeScreen />} exact />
+            <Route path="/leaderboard" element={<HomeScreen />} exact />
+            <Route path="/" element={
+                <Navigate to="/leaderboard" />   
+                } exact />
           </Routes>
         </main>
       </Router>

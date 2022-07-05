@@ -1,6 +1,5 @@
 const expressAsyncHandler = require("express-async-handler");
 const appError = require("../../utils/error/appError");
-const errorResponseStatus = require("../../utils/errorRespStatus");
 
 const deleteOne = (Model) =>
     expressAsyncHandler(async (req, res, next) => {
@@ -18,8 +17,11 @@ const deleteOne = (Model) =>
 
 const getAll = (Model) => 
     async (req, res, next) => {
-
-        const data = await Model.find().sort(req.sort).exec()
+        let filter 
+        if(req.filter && req.filter.field) {
+            filter = req.filter
+        }
+        const data = await Model.find(filter).sort(req.sort).exec()
 
         req.data = data
 
@@ -30,6 +32,7 @@ const getResponse = async(req, res) => {
     const {data} = req
     res.status(200).json({
         status: 'Success',
+        length: data.length,
         data
     })
 }
@@ -45,10 +48,34 @@ const sortMiddleware = async(req, res, next) => {
     next()
 }
 
+const filterData = async(req, res, next) => {
+    const {min, max, field} = req.query
+
+    console.log('req.params = ', req.query)
+    if (!field) {
+        req.filter = undefined
+        return next()
+    }
+
+    const filter = {
+        [field]: { $gte: min, $lte: max}
+    }
+    if (filter[field]['$gte'] === undefined) {
+        delete filter[field]['$gte']
+    }
+    if (filter[field]['$lte'] === undefined) {
+        delete filter[field]['$lte']
+    }
+
+    console.log('filter = ', filter)
+    req.filter = filter
+    next()
+}
+
 const updateOne = async(Model, updateFilter, dataupdate) => {
     console.log('filter = ', updateFilter)
     console.log('update = ', dataupdate)
     await Model.updateOne(updateFilter, dataupdate, {new: true}).exec()
 };
 
-module.exports = {sortMiddleware, deleteOne,getAll,getResponse, updateOne}
+module.exports = {sortMiddleware, deleteOne,getAll,getResponse, updateOne, filterData}

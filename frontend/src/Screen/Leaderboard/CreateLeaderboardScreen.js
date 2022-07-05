@@ -1,19 +1,66 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { createTournamentResultAction, tournamentListAction } from '../../Service/Actions/tournament.action'
+import Select from 'react-select'
+import { teamByTournamentAction, teamListAction } from '../../Service/Actions/team.action'
+import AlertComponent from '../../Components/AlertComponent'
+
+const convertToSelectValue = (arr) => {
+  let arrData = []
+  arr.map((item) =>
+    arrData.push({ label: item.name, value: item.id })
+  )
+  return arrData
+}
 
 const CreateLeaderboardScreen = () => {
   const [team_id, setTeamId] = useState('')
   const [position, setPosition] = useState('')
-  const [point, setPoint] = useState('')
-  const [tournamentId, setTournament] = useState('')
+  const [point, setPoint] = useState(0)
+  const [tournamentId, setTournamentId] = useState('')
+
+  const [listTeam, setListTeam] = useState([])
+
+  const tournamentList = useSelector(state => state.tournamentList)
+  const { loading, error, listOfTournament } = tournamentList
+
+  const teamByTournamentID = useSelector(state => state.teamByTournamentID)
+  const { teamByTournament } = teamByTournamentID
+
+  const createTournament = useSelector(state => state.createTournament)
+  const { loading: createLoading, error: errorCreate, createTournamentWinner } = createTournament
 
   const dispatch = useDispatch()
 
-  const submitHandler = () => {
-    const body = {
-
+  useEffect(() => {
+    if (!listOfTournament) {
+      dispatch(tournamentListAction())
     }
-    dispatch()
+    console.log('lost = ', listTeam)
+  }, [listOfTournament])
+
+  useEffect(() => {
+    dispatch(teamByTournamentAction(tournamentId))
+  }, [tournamentId])
+
+  useEffect(() => {
+    setListTeam(teamByTournament)
+  }, [teamByTournament])
+
+  useEffect(() => {
+    setPoint(position === '1' ? '5' : position === '2' ? '3' : '2')
+  }, [position])
+
+  useEffect(() => {
+    if (createTournamentWinner) {
+      window.location.href = `${origin}/leaderboard?sort=point&sortOrder=desc`
+    }
+  }, [createTournamentWinner])
+
+
+  const submitHandler = () => {
+    dispatch(createTournamentResultAction({ team_id, tournament_id: tournamentId, position, point }))
+
   }
   return (
     <>
@@ -24,45 +71,60 @@ const CreateLeaderboardScreen = () => {
             Digunakan untuk mendata perusahaan dengan detail.
           </p>
         </div>
-        {/* {error && (
-          <div className="alert alert-danger" role="alert">
-            {error}
-          </div>
-        )} */}
       </div>
+      {errorCreate && (
+        <AlertComponent variant={'danger'} message={errorCreate} />
+      )}
       <div className="p-4 p-md-5 mb-4 text-center text-black rounded">
         <form onSubmit={(e) => submitHandler()}>
           <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="floatingInput"
-              placeholder="Nama Perusahaan"
-              required
-              onChange={(e) => setTeamId(e.target.value)}
-            />
-            <label htmlFor="floatingInput">Nama Perusahaan</label>
-          </div>
-          {/* <div className="form-floating mb-3">
             <select
               className="form-select"
-              id="floatingVacancyType"
+              id="tournamentID"
               aria-label="Floating label select vacancy type"
               required
-              onChange={(e) => setVacancyType(e.target.value)}
+              onChange={(e) => setTournamentId(e.target.value)}
             >
               <option defaultValue>Vacancy Type Select</option>
-              {vacancyTypeArray.map((item, index) => (
-                <option key={index + `vacancy`} value={item.value}>
-                  {item.desc}
+              {listOfTournament && listOfTournament.map((item, index) => (
+                <option key={index + `tournament`} value={item.id}>
+                  {item.title}
                 </option>
               ))}
             </select>
-            <label htmlFor="floatingSelect">Vacancy Type</label>
-          </div> */}
+            <label htmlFor="floatingSelect">Tournament</label>
+          </div>
+          <div className="form-floating mb-3">
+            {
+              listTeam && listTeam.length > 0 &&
+              (<Select
+                className="form-control"
+                options={convertToSelectValue(listTeam)}
+                onChange={(e) => setTeamId(e.value)}
+              />)
+            }
+            <label htmlFor="floatingInput">Nama Team</label>
+          </div>
+          <div className="form-floating mb-3">
+            <select className="form-select" id="positionSelect" aria-label="Floating label position select" onChange={
+              (e) => setPosition(e.target.value)
+            }>
+              <option defaultValue>Pilih posisi</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+            <label htmlFor="floatingSelect">Pilih posisi</label>
+          </div>
+
+          <div className="form-floating mb-3">
+            <input type="text" className="form-control" id="floatingInput" placeholder="Point" value={point || '0'} readOnly />
+            <label htmlFor="floatingInput">Point</label>
+          </div>
+
           <div className="form-floating mb-3">
             <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button className="btn btn-primary" type="button" onClick={() => submitHandler()}>
+              <button className="btn btn-primary" type="button" onClick={() => submitHandler()} disabled={createLoading}>
                 Create
               </button>
             </div>

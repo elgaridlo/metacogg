@@ -1,5 +1,6 @@
-import { tournamentListReducer } from "../Reducers/tournament.reducer";
+import { createdTournamentResultReducer, tournamentListReducer } from "../Reducers/tournament.reducer";
 
 export const tournamentStore = {
-    tournamentList: tournamentListReducer
+    tournamentList: tournamentListReducer,
+    createTournament: createdTournamentResultReducer
 }

@@ -17,4 +17,10 @@ const addPointToTeam = async(req,res,next) => {
     next()
 }
 
-module.exports = {getAllTeam, addPointToTeam}
+const getTeamByTournamentID = async(req,res,next) => {
+    const getTeams = await Team.find({tournament_id: req.params.id})
+
+    req.data = getTeams
+    next()
+}
+module.exports = {getAllTeam, addPointToTeam, getTeamByTournamentID}

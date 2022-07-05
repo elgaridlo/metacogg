@@ -38,7 +38,7 @@ const createTournamentResult = asyncHandler(async(req, res, next) => {
     }
 
 
-    // const data = await TournamentResult.create(req.body)
+    const data = await TournamentResult.create(req.body)
     req.data = 'success'
 
     next()
